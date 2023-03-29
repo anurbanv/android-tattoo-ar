@@ -33,4 +33,16 @@ class NewIdeaViewModel @Inject constructor() : ViewModel() {
             dropDownExpanded = false,
         )
     }
+
+    fun onSubmitIdeaClick() {
+        mutableState.value = mutableState.value?.copy(
+            navigateToDetailsScreen = true,
+        )
+    }
+
+    fun cancelNavigationRequest() {
+        mutableState.value = mutableState.value?.copy(
+            navigateToDetailsScreen = false,
+        )
+    }
 }

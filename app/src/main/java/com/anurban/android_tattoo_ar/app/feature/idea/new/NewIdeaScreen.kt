@@ -33,6 +33,11 @@ fun NewIdeaScreen(
 
     val state = viewModel.state.observeAsState().value
 
+    if (state?.navigateToDetailsScreen == true) {
+        viewModel.cancelNavigationRequest()
+        navigator.navigate(IdeaDetailsScreenDestination)
+    }
+
     NewIdeaScreenUi(
         state = state,
         eventListener = {
@@ -40,7 +45,7 @@ fun NewIdeaScreen(
                 when (this) {
                     is DescriptionChange -> viewModel.onDescriptionChanged(description)
                     GoBackAction -> navigator.popBackStack()
-                    SubmitIdeaAction -> navigator.navigate(IdeaDetailsScreenDestination)
+                    SubmitIdeaAction -> viewModel.onSubmitIdeaClick()
                     is ToggleMenuExpand -> viewModel.onDropDownMenuToggle(expanded)
                     is StyleOptionSelected -> viewModel.onStyleOptionSelected(optionId)
                 }
@@ -102,6 +107,7 @@ data class NewIdeaScreenState(
     val descriptionInput: String = "",
     val dropDownExpanded: Boolean = false,
     val selectedOptionId: Int = 0,
+    val navigateToDetailsScreen: Boolean = false,
 )
 
 @Preview
