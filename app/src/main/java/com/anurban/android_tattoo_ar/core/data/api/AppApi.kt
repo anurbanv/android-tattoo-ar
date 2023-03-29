@@ -9,5 +9,5 @@ import retrofit2.http.GET
 interface AppApi {
 
     @GET("idea/generate")
-    suspend fun get(@Body request: GenerateIdeaRequest): Response<GenerateIdeaResponse>
+    suspend fun generateIdea(@Body request: GenerateIdeaRequest): Response<GenerateIdeaResponse>
 }

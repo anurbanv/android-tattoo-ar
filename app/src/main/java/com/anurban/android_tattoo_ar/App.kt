@@ -1,7 +1,9 @@
 package com.anurban.android_tattoo_ar
 
 import android.app.Application
+import androidx.room.Room
 import com.anurban.android_tattoo_ar.core.data.api.AppApi
+import com.anurban.android_tattoo_ar.core.data.database.AppDatabase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,6 +15,8 @@ class App : Application() {
 
     lateinit var appApi: AppApi
 
+    lateinit var appDatabase: AppDatabase
+
     override fun onCreate() {
         super.onCreate()
 
@@ -20,6 +24,11 @@ class App : Application() {
 
         appApi = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://www.google.com/")
             .build().create(AppApi::class.java)
+
+        appDatabase = Room
+            .databaseBuilder(applicationContext, AppDatabase::class.java, "app-db")
+            .build()
     }
 }
