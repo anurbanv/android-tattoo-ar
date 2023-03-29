@@ -3,11 +3,14 @@ package com.anurban.android_tattoo_ar.app.feature.idea.new
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.anurban.android_tattoo_ar.core.feature.idea.CurrentIdeaManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class NewIdeaViewModel @Inject constructor() : ViewModel() {
+class NewIdeaViewModel @Inject constructor(
+    private val currentIdeaManager: CurrentIdeaManager,
+) : ViewModel() {
 
     private val mutableState = MediatorLiveData<NewIdeaScreenState>().apply {
         value = NewIdeaScreenState()
@@ -35,6 +38,13 @@ class NewIdeaViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onSubmitIdeaClick() {
+        val state = mutableState.value ?: return
+
+        currentIdeaManager.setIdeaRequest(
+            style = state.selectedStyle,
+            description = state.descriptionInput,
+        )
+
         mutableState.value = mutableState.value?.copy(
             navigateToDetailsScreen = true,
         )

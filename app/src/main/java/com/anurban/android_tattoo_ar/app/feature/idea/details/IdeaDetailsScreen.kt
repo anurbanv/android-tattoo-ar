@@ -67,9 +67,6 @@ sealed interface IdeaDetailsScreenEvent {
     object ExportIdeaAction : IdeaDetailsScreenEvent
 }
 
-class IdeaDetailsScreenState {
-}
-
 @Preview
 @Composable
 private fun IdeaDetailsScreenPreview() {
