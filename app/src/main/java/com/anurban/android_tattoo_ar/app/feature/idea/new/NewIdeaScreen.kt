@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.anurban.android_tattoo_ar.app.feature.destinations.IdeaDetailsScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.GoBackAction
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.SubmitIdeaAction
 import com.ramcosta.composedestinations.annotation.Destination
@@ -28,7 +29,7 @@ fun NewIdeaScreen(
             when (it) {
                 is NewIdeaScreenEvent.DescriptionChange -> {}
                 GoBackAction -> navigator.popBackStack()
-                SubmitIdeaAction -> {}
+                SubmitIdeaAction -> navigator.navigate(IdeaDetailsScreenDestination)
             }
         }
     )

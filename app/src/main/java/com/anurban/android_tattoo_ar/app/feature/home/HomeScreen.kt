@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.anurban.android_tattoo_ar.app.feature.destinations.MyIdeasScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.destinations.NewIdeaScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.home.HomeScreenEvent.MySavedIdeasActions
 import com.anurban.android_tattoo_ar.app.feature.home.HomeScreenEvent.NewIdeaAction
@@ -25,8 +26,8 @@ fun HomeScreen(
     HomeScreenUi(
         eventListener = {
             when (it) {
-                MySavedIdeasActions -> {}
-                NewIdeaAction -> navigator.navigate(NewIdeaScreenDestination())
+                MySavedIdeasActions -> navigator.navigate(MyIdeasScreenDestination)
+                NewIdeaAction -> navigator.navigate(NewIdeaScreenDestination)
             }
         }
     )
