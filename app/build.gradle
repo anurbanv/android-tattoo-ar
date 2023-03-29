@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id "org.jetbrains.kotlin.kapt"
     id "com.google.devtools.ksp" version "1.8.10-1.0.9"
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -55,6 +57,7 @@ dependencies {
     // compose
     implementation platform('androidx.compose:compose-bom:2022.10.00')
     implementation 'androidx.activity:activity-compose:1.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     // compose theme
     implementation 'androidx.compose.material3:material3'
     // room database
@@ -72,10 +75,18 @@ dependencies {
     // compose navigation
     implementation "io.github.raamcosta.compose-destinations:core:1.8.38-beta"
     ksp "io.github.raamcosta.compose-destinations:ksp:1.8.38-beta"
+    // dependency injection hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
 
     kapt "androidx.room:room-compiler:2.5.1"
     // compose preview
     debugImplementation 'androidx.compose.ui:ui-tooling:1.4.0'
     // junit for testing
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
+}
+
+kapt {
+    correctErrorTypes true
 }

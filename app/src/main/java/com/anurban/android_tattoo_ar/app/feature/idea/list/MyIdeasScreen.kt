@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -17,6 +18,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun MyIdeasScreen(
     navigator: DestinationsNavigator,
 ) {
+    val viewModel: MyIdeasViewModel = hiltViewModel()
+
     MyIdeasScreenUi(
         eventListener = {
             when (it) {
@@ -45,6 +48,10 @@ private fun MyIdeasScreenUi(
 
 sealed interface MyIdeasScreenEvent {
     object GoBackAction : MyIdeasScreenEvent
+}
+
+class MyIdeasScreenState {
+
 }
 
 @Preview

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.anurban.android_tattoo_ar.app.feature.destinations.MyIdeasScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.destinations.NewIdeaScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.home.HomeScreenEvent.MySavedIdeasActions
@@ -23,6 +24,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun HomeScreen(
     navigator: DestinationsNavigator,
 ) {
+    val viewModel: HomeScreenViewModel = hiltViewModel()
+
     HomeScreenUi(
         eventListener = {
             when (it) {
@@ -61,6 +64,9 @@ private fun HomeScreenUi(
 sealed interface HomeScreenEvent {
     object NewIdeaAction : HomeScreenEvent
     object MySavedIdeasActions : HomeScreenEvent
+}
+
+class HomeScreenState {
 }
 
 @Preview

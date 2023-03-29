@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.anurban.android_tattoo_ar.app.feature.destinations.IdeaDetailsScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.GoBackAction
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.SubmitIdeaAction
@@ -24,6 +25,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun NewIdeaScreen(
     navigator: DestinationsNavigator,
 ) {
+    val viewModel: NewIdeaViewModel = hiltViewModel()
+
     NewIdeaScreenUi(
         eventListener = {
             when (it) {
@@ -64,6 +67,10 @@ sealed interface NewIdeaScreenEvent {
     object GoBackAction : NewIdeaScreenEvent
     object SubmitIdeaAction : NewIdeaScreenEvent
     data class DescriptionChange(val description: String) : NewIdeaScreenEvent
+}
+
+class NewIdeaScreenState {
+
 }
 
 @Preview

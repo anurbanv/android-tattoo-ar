@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.anurban.android_tattoo_ar.app.feature.idea.details.IdeaDetailsScreenEvent.ExportIdeaAction
 import com.anurban.android_tattoo_ar.app.feature.idea.details.IdeaDetailsScreenEvent.GoBackAction
@@ -23,6 +24,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun IdeaDetailsScreen(
     navigator: DestinationsNavigator,
 ) {
+    val viewModel: IdeaDetailsViewModel = hiltViewModel()
+
     IdeaDetailsScreenUi(
         eventListener = {
             when (it) {
@@ -62,6 +65,9 @@ private fun IdeaDetailsScreenUi(
 sealed interface IdeaDetailsScreenEvent {
     object GoBackAction : IdeaDetailsScreenEvent
     object ExportIdeaAction : IdeaDetailsScreenEvent
+}
+
+class IdeaDetailsScreenState {
 }
 
 @Preview
