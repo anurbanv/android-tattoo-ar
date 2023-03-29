@@ -13,14 +13,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.anurban.android_tattoo_ar.app.feature.idea.details.IdeaDetailsScreenEvent.ExportIdeaAction
+import com.anurban.android_tattoo_ar.app.feature.idea.details.IdeaDetailsScreenEvent.GoBackAction
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@Destination
 @Composable
 fun IdeaDetailsScreen(
-    modifier: Modifier = Modifier,
-    eventListener: () -> Unit = {},
+    navigator: DestinationsNavigator,
+) {
+    IdeaDetailsScreenUi(
+        eventListener = {
+            when (it) {
+                ExportIdeaAction -> {}
+                GoBackAction -> navigator.popBackStack()
+            }
+        }
+    )
+}
+
+@Composable
+private fun IdeaDetailsScreenUi(
+    eventListener: (IdeaDetailsScreenEvent) -> Unit = {},
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -32,14 +50,22 @@ fun IdeaDetailsScreen(
             painter = rememberAsyncImagePainter("https://i.pinimg.com/originals/f8/bc/0e/f8bc0eb1ad0c66f199ca17973c7d8f6a.jpg"),
             contentDescription = null,
         )
-        Button(onClick = { eventListener() }) {
+        Button(onClick = { eventListener(ExportIdeaAction) }) {
             Text(text = "export")
         }
+        Button(onClick = { eventListener(GoBackAction) }) {
+            Text(text = "Go back")
+        }
     }
+}
+
+sealed interface IdeaDetailsScreenEvent {
+    object GoBackAction : IdeaDetailsScreenEvent
+    object ExportIdeaAction : IdeaDetailsScreenEvent
 }
 
 @Preview
 @Composable
 private fun IdeaDetailsScreenPreview() {
-    IdeaDetailsScreen()
+    IdeaDetailsScreenUi()
 }
