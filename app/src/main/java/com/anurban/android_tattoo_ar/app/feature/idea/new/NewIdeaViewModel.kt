@@ -20,4 +20,17 @@ class NewIdeaViewModel @Inject constructor() : ViewModel() {
             descriptionInput = description,
         )
     }
+
+    fun onDropDownMenuToggle(expanded: Boolean) {
+        mutableState.value = mutableState.value?.copy(
+            dropDownExpanded = expanded,
+        )
+    }
+
+    fun onStyleOptionSelected(optionId: Int) {
+        mutableState.value = mutableState.value?.copy(
+            selectedOptionId = optionId,
+            dropDownExpanded = false,
+        )
+    }
 }

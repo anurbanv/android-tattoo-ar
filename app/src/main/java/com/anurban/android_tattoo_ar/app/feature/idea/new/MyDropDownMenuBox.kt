@@ -9,48 +9,45 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MyDropDownMenuBox() {
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
-
+fun MyDropDownMenuBox(
+    options: List<DropDownMenuOption> = listOf(),
+    selectedOption: DropDownMenuOption? = null,
+    isExpanded: Boolean = false,
+    onExpandChange: (Boolean) -> Unit = {},
+    onDismissRequest: () -> Unit = {},
+    onOptionSelected: (Int) -> Unit = {},
+) {
     ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        }
+        expanded = isExpanded,
+        onExpandedChange = onExpandChange,
     ) {
         TextField(
             modifier = Modifier.menuAnchor(),
             readOnly = true,
-            value = selectedOptionText,
+            value = selectedOption?.text ?: "N/A",
             onValueChange = { },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
         )
         ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = {
-                expanded = false
-            }
+            expanded = isExpanded,
+            onDismissRequest = onDismissRequest,
         ) {
-            options.forEach { selectionOption ->
+            options.forEach { option ->
                 DropdownMenuItem(
                     text = {
-                        Text(text = selectionOption)
+                        Text(text = option.text)
                     },
-                    onClick = {
-                        selectedOptionText = selectionOption
-                        expanded = false
-                    },
+                    onClick = { onOptionSelected(option.id) },
                 )
             }
         }
     }
 }
+
+data class DropDownMenuOption(
+    val id: Int = 0,
+    val text: String = "",
+)

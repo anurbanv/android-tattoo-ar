@@ -18,7 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.anurban.android_tattoo_ar.app.feature.destinations.IdeaDetailsScreenDestination
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.DescriptionChange
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.GoBackAction
+import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.StyleOptionSelected
 import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.SubmitIdeaAction
+import com.anurban.android_tattoo_ar.app.feature.idea.new.NewIdeaScreenEvent.ToggleMenuExpand
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -39,6 +41,8 @@ fun NewIdeaScreen(
                     is DescriptionChange -> viewModel.onDescriptionChanged(description)
                     GoBackAction -> navigator.popBackStack()
                     SubmitIdeaAction -> navigator.navigate(IdeaDetailsScreenDestination)
+                    is ToggleMenuExpand -> viewModel.onDropDownMenuToggle(expanded)
+                    is StyleOptionSelected -> viewModel.onStyleOptionSelected(optionId)
                 }
             }
         },
@@ -52,13 +56,25 @@ private fun NewIdeaScreenUi(
 ) {
     state ?: return
 
+    val options = listOf(
+        DropDownMenuOption(id = 1, text = "Style 1"),
+        DropDownMenuOption(id = 2, text = "Style 2"),
+    )
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(text = "Select style")
-        MyDropDownMenuBox()
+        MyDropDownMenuBox(
+            options = options,
+            isExpanded = state.dropDownExpanded,
+            selectedOption = options.find { it.id == state.selectedOptionId },
+            onExpandChange = { eventListener(ToggleMenuExpand(it)) },
+            onDismissRequest = { eventListener(ToggleMenuExpand(false)) },
+            onOptionSelected = { eventListener(StyleOptionSelected(it)) },
+        )
         Text(text = "Describe your tattoo idea")
         TextField(
             value = state.descriptionInput,
@@ -77,11 +93,15 @@ sealed interface NewIdeaScreenEvent {
     object GoBackAction : NewIdeaScreenEvent
     object SubmitIdeaAction : NewIdeaScreenEvent
     data class DescriptionChange(val description: String) : NewIdeaScreenEvent
+    data class ToggleMenuExpand(val expanded: Boolean) : NewIdeaScreenEvent
+    data class StyleOptionSelected(val optionId: Int) : NewIdeaScreenEvent
 }
 
 data class NewIdeaScreenState(
     val selectedStyle: Int = 0,
     val descriptionInput: String = "",
+    val dropDownExpanded: Boolean = false,
+    val selectedOptionId: Int = 0,
 )
 
 @Preview
